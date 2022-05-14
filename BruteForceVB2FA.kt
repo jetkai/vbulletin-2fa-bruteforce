@@ -23,7 +23,11 @@ const val securityToken = "<PASTE TOKEN HERE>"
 const val cookie = "<PASTE COOKIE HERE>"
 //CAN EDIT - END
 
-//.proxy(ProxySelector.of(InetSocketAddress("rotate.proxy.example", 4151)))
+//Uncomment if using rotating proxy & comment out the "val client" below
+/*val client : HttpClient = HttpClient.newBuilder()
+    .proxy(ProxySelector.of(InetSocketAddress("rotate.proxy.example", 4151)))
+    .version(HttpClient.Version.HTTP_1_1).build()*/
+
 val client : HttpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).build()
 val builder : HttpRequest.Builder = vBulletinHeaders(HttpRequest.newBuilder())
 
@@ -50,8 +54,9 @@ fun main() {
 }
 
 fun handleResponse() {
-    val twoFactor = post().twoFactor
-    val response = post().response
+    val postRequest = post()
+    val twoFactor = postRequest.twoFactor
+    val response = postRequest.response
 
     val body = response.body()
     val code = response.statusCode()
